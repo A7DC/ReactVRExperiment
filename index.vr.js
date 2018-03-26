@@ -1,41 +1,32 @@
 import React from 'react';
-import {
-  AppRegistry,
-  asset,
-  Pano,
-  Text,
-  View,
-} from 'react-vr';
+import { AppRegistry, asset, View, Pano, Text, Animated } from 'react-vr';
 
-class ColorChange extends React.Component {
-  constructor() {
-    super();
+class BouncingText extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bounceValue: new Animated.Value(0),
+    };
+  }
 
-    this.state = { textColor: 'yellow' };
+  componentDidMount() {
+    Animated.spring(this.state.bounceValue, {
+      toValue: 2,
+      friction: 0.5,
+      tension: 4,
+    }).start();
   }
 
   render() {
     return (
-      <Text
-        style={{ 
-          color: this.state.textColor,
-          backgroundColor: '#777879',
-          fontSize: 0.8,
-          fontWeight: '400',
+      <Animated.Text
+        style={{
           layoutOrigin: [0.5, 0.5],
-          paddingLeft: 0.2,
-          paddingRight: 0.2,
-          textAlign: 'center',
-          textAlignVertical: 'center',
-          transform: [
-            { translate: [0, 0, -3] },
-            { scale: 2 },
-          ],
+          transform: [{ translate: [0, 0, -1] }, { scale: this.state.bounceValue }],
         }}
-        onEnter={() => this.setState({ textColor: 'red' })}
-        onExit={() => this.setState({ textColor: 'yellow' })}>
-        This text will turn red when you look at it.
-      </Text>
+      >
+        hello
+      </Animated.Text>
     );
   }
 }
@@ -43,10 +34,10 @@ class ColorChange extends React.Component {
 export default class WelcomeToVR extends React.Component {
   render() {
     return (
-      <View>
-        <Pano source={asset('chess-world.jpg')}/>
-        <ColorChange />
-      </View>
+        <View>
+          <Pano source={asset('highway_1_pacific_ocean.jpg')} />
+        <BouncingText />
+        </View>
     );
   }
 };
