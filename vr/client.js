@@ -3,15 +3,31 @@
 // If you want to modify your application, start in "index.vr.js"
 
 // Auto-generated content.
-import {VRInstance} from 'react-vr-web';
+import { VRInstance } from 'react-vr-web';
+
+//import * as OVRUI from 'ovrui';
+import ControllerRayCaster from 'react-vr-controller-raycaster';
+
+import * as THREE from 'three';
 
 function init(bundle, parent, options) {
+
+  const scene = new THREE.Scene(); // Create a Scene object, more on this below
+
+
   const vr = new VRInstance(bundle, 'WelcomeToVR', parent, {
+    // specify your list of raycasters
+    raycasters: [
+      new ControllerRayCaster({ scene, color: '#ff0000' }),
+      //new OVRUI.MouseRayCaster(),
+    ],
+
+    scene: scene,
     cursorVisibility: 'visible',
-    // Add custom options here
+
     ...options,
   });
-  vr.render = function() {
+  vr.render = function () {
     // Any custom behavior you want to perform on each frame goes here
   };
   // Begin the animation loop
@@ -19,4 +35,4 @@ function init(bundle, parent, options) {
   return vr;
 }
 
-window.ReactVR = {init};
+window.ReactVR = { init };
